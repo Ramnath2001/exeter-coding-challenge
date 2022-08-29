@@ -18,16 +18,24 @@ def main():
 
     with open('t8.shakespeare.txt') as f:     #t8.shakespeare
         contents = f.read()
-        for p in re.split(r'(\W+)', contents):                    #counting the occurence of the availabe english words in the input text file
+        wordList = []
+        # print(re.split(r'(\W+)', contents))
+        for p in re.split(r'(\W+)', contents):
             if p.lower() in l:
                 l[p.lower()][1] += 1
-
-        #translating the words with the help of regular expressions
-        translated_text = ''.join((l[p.lower()][0].upper() if p.isupper() else (l[p.lower()][0].title() if p.istitle() else l[p.lower()][0]))  if p.lower() in l else p for p in re.split(r'(\W+)', contents))
+                if p.isupper():
+                    wordList.append(l[p.lower()][0].upper())
+                elif p.istitle():
+                    wordList.append(l[p.lower()][0].title())
+                else: 
+                    wordList.append(l[p.lower()][0].lower())
+            else:
+                wordList.append(p)
+        translatedTxt = ''.join(wordList)
         text_file = open("t8.shakespeare.translated.txt", "w") #creating a new file to store the translated text
 
         #write string to file
-        text_file.write(translated_text)
+        text_file.write(translatedTxt)
 
         #close file
         text_file.close()
